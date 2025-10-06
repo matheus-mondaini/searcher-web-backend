@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motor de Busca - Projeto EC48B</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="logo">🔍 Motor de Busca</h1>
+            <p class="subtitle">Sistema de Busca e Indexação de Websites</p>
+            <p class="project-info">Projeto 1 - EC48B | Matheus Mondaini (2504219)</p>
+        </header>
+
+        <!-- Search Section -->
+        <section class="search-section">
+            <div class="search-box">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    class="search-input" 
+                    placeholder="Digite sua busca..."
+                    autocomplete="off"
+                >
+                <button id="searchBtn" class="search-btn">Buscar</button>
+            </div>
+            <div id="suggestions" class="suggestions"></div>
+        </section>
+
+        <!-- Results Section -->
+        <section id="resultsSection" class="results-section" style="display: none;">
+            <div class="results-header">
+                <h2 id="resultsTitle">Resultados da busca</h2>
+                <p id="resultsInfo" class="results-info"></p>
+            </div>
+            <div id="resultsList" class="results-list"></div>
+        </section>
+
+        <!-- Add Website Section -->
+        <section class="add-website-section">
+            <button id="toggleAddBtn" class="toggle-btn">➕ Adicionar Website</button>
+            
+            <div id="addWebsiteForm" class="add-form" style="display: none;">
+                <h3>Indexar Novo Website</h3>
+                <form id="websiteForm">
+                    <div class="form-group">
+                        <label for="urlInput">URL *</label>
+                        <input type="url" id="urlInput" required placeholder="https://exemplo.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="titleInput">Título *</label>
+                        <input type="text" id="titleInput" required placeholder="Título do website">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="descriptionInput">Descrição</label>
+                        <textarea id="descriptionInput" rows="3" placeholder="Descrição do conteúdo"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="keywordsInput">Palavras-chave (separadas por vírgula)</label>
+                        <input type="text" id="keywordsInput" placeholder="tecnologia, programação, web">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contentInput">Conteúdo</label>
+                        <textarea id="contentInput" rows="4" placeholder="Conteúdo textual do website"></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Indexar Website</button>
+                        <button type="button" id="cancelBtn" class="btn-secondary">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Statistics Section -->
+        <section class="statistics-section">
+            <h3>📊 Estatísticas do Sistema</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalWebsites">-</div>
+                    <div class="stat-label">Websites Indexados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalSearches">-</div>
+                    <div class="stat-label">Buscas Realizadas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="avgResults">-</div>
+                    <div class="stat-label">Média de Resultados</div>
+                </div>
+            </div>
+            
+            <div class="popular-section">
+                <div class="popular-col">
+                    <h4>🔥 Palavras-chave Populares</h4>
+                    <ul id="popularKeywords" class="popular-list"></ul>
+                </div>
+                <div class="popular-col">
+                    <h4>⭐ Websites Mais Acessados</h4>
+                    <ul id="popularWebsites" class="popular-list"></ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2025 - UTFPR - Disciplina: Programação Web Back-End (EC48B)</p>
+            <p>Desenvolvido com Node.js, MongoDB, HTML e CSS</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

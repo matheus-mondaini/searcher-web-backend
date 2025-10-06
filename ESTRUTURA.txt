@@ -1,0 +1,368 @@
+┌──────────────────────────────────────────────────────────────────────┐
+│                                                                      │
+│         🔍 MOTOR DE BUSCA DE WEBSITES - PROJETO EC48B 🔍           │
+│                                                                      │
+│              Projeto 1 - Programação Web Back-End                   │
+│            Matheus Mondaini (2504219) - UTFPR - 2025               │
+│                                                                      │
+└──────────────────────────────────────────────────────────────────────┘
+
+📁 ESTRUTURA DO PROJETO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+projeto-1/
+│
+├── 📂 src/ ................................. Código-fonte backend
+│   │
+│   ├── 📂 database/
+│   │   └── connection.js ................ Conexão MongoDB (Singleton)
+│   │
+│   ├── 📂 models/ ....................... Classes de Entidades
+│   │   ├── Website.js ................... CRUD de websites
+│   │   ├── Keyword.js ................... CRUD de palavras-chave
+│   │   └── Search.js .................... CRUD de buscas
+│   │
+│   ├── 📂 services/
+│   │   └── SearchService.js ............. Lógica de busca e ranking
+│   │
+│   ├── 📂 routes/
+│   │   └── api.js ....................... Rotas HTTP da API
+│   │
+│   ├── server.js ........................ Servidor HTTP
+│   └── seed.js .......................... Script de população do BD
+│
+├── 📂 public/ ........................... Frontend
+│   ├── index.html ....................... Interface principal
+│   ├── styles.css ....................... Estilos CSS
+│   └── script.js ........................ Lógica JavaScript
+│
+├── 📂 node_modules/ ..................... Dependências
+│
+├── 📄 package.json ...................... Configuração npm
+├── 📄 package-lock.json
+├── 📄 .gitignore
+│
+├── 📖 README.md ......................... Documentação principal
+├── 📖 INSTALACAO.md ..................... Guia de instalação
+├── 📖 API.md ............................ Documentação da API
+├── 📖 CLASSES.md ........................ Documentação das classes
+├── 📖 MONGODB-INSTALL.md ................ Como instalar MongoDB
+├── 📖 PROXIMO-PASSO.md .................. Próximos passos
+└── 🧪 test-api.sh ....................... Script de testes
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⚙️  TECNOLOGIAS UTILIZADAS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Backend:
+  ✅ Node.js v18+ (puro, sem frameworks)
+  ✅ MongoDB v6+ (banco de dados NoSQL)
+  ✅ HTTP nativo (sem Express)
+
+Frontend:
+  ✅ HTML5 (puro)
+  ✅ CSS3 (puro, design moderno)
+  ✅ JavaScript (Vanilla JS, Fetch API)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 DEPENDÊNCIAS (package.json)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  "dependencies": {
+    "mongodb": "^6.3.0"  ← Único pacote externo (driver MongoDB)
+  }
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 FUNCIONALIDADES IMPLEMENTADAS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Busca de websites por palavras-chave
+✅ Indexação de novos websites
+✅ Sistema de ranking por relevância
+✅ Contador de clicks/popularidade
+✅ Sugestões de busca em tempo real
+✅ Histórico completo de buscas
+✅ Estatísticas em tempo real
+✅ Interface web moderna e responsiva
+✅ API REST completa (11 endpoints)
+✅ Validação de dados
+✅ Tratamento de erros
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🗄️  BANCO DE DADOS (MongoDB)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Database: motor_de_busca
+
+Collections:
+
+  📊 websites
+     ├─ _id: ObjectId
+     ├─ url: String (único)
+     ├─ title: String
+     ├─ description: String
+     ├─ keywords: Array<String>
+     ├─ content: String
+     ├─ clicks: Number
+     ├─ createdAt: Date
+     └─ updatedAt: Date
+
+  📊 keywords
+     ├─ _id: ObjectId
+     ├─ word: String (único)
+     ├─ searchCount: Number
+     ├─ relatedWebsites: Array<String>
+     ├─ createdAt: Date
+     └─ updatedAt: Date
+
+  📊 searches
+     ├─ _id: ObjectId
+     ├─ query: String
+     ├─ resultsCount: Number
+     ├─ timestamp: Date
+     ├─ userAgent: String
+     └─ ip: String
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔌 API ENDPOINTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  GET    /api/search?q=termo ........... Buscar websites
+  GET    /api/websites ................. Listar todos os websites
+  POST   /api/websites ................. Adicionar website
+  GET    /api/websites/:id ............. Buscar website por ID
+  PUT    /api/websites/:id ............. Atualizar website
+  DELETE /api/websites/:id ............. Deletar website
+  POST   /api/websites/:id/click ....... Registrar click
+  GET    /api/keywords ................. Keywords populares
+  GET    /api/suggestions?q=termo ...... Sugestões de busca
+  GET    /api/statistics ............... Estatísticas do sistema
+  GET    /api/search/history ........... Histórico de buscas
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚀 COMO EXECUTAR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1️⃣  Instalar MongoDB:
+    
+    brew tap mongodb/brew
+    brew install mongodb-community@7.0
+    brew services start mongodb-community@7.0
+
+2️⃣  Popular banco de dados:
+    
+    node src/seed.js
+
+3️⃣  Iniciar servidor:
+    
+    npm start
+
+4️⃣  Acessar aplicação:
+    
+    http://localhost:3000
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📚 CLASSES IMPLEMENTADAS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔷 Database (Singleton)
+   ├─ connect()
+   ├─ getDb()
+   └─ close()
+
+🔷 Website
+   ├─ insert()
+   ├─ static findByKeyword(keyword)
+   ├─ static findAll(limit)
+   ├─ static findById(id)
+   ├─ static update(id, data)
+   ├─ static incrementClicks(id)
+   ├─ static delete(id)
+   └─ static getMostPopular(limit)
+
+🔷 Keyword
+   ├─ insert()
+   ├─ static getMostSearched(limit)
+   ├─ static findByWord(word)
+   ├─ static addWebsiteAssociation(word, websiteId)
+   └─ static findAll()
+
+🔷 Search
+   ├─ insert()
+   ├─ static getHistory(limit)
+   ├─ static getPopularSearches(limit)
+   ├─ static getStatistics()
+   └─ static cleanOldSearches(days)
+
+🔷 SearchService
+   ├─ static search(query, options)
+   ├─ static rankResults(websites, query)
+   ├─ static indexWebsite(websiteData)
+   ├─ static getSuggestions(partial, limit)
+   └─ static getStatistics()
+
+🔷 Router
+   ├─ static handle(req, res)
+   ├─ static sendResponse(res, statusCode, data)
+   └─ static getRequestBody(req)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎓 CONCEITOS DEMONSTRADOS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Programação Orientada a Objetos
+   • Classes e métodos
+   • Encapsulamento
+   • Padrão Singleton
+   • Métodos estáticos vs. instância
+
+✅ Banco de Dados NoSQL
+   • Operações CRUD completas
+   • Queries complexas
+   • Agregações (pipeline)
+   • Índices e performance
+
+✅ Arquitetura de Software
+   • Separação de responsabilidades
+   • Camadas (Models, Services, Routes)
+   • Padrões de projeto
+   • Código modular e reutilizável
+
+✅ Backend
+   • Servidor HTTP nativo
+   • Roteamento de URLs
+   • API RESTful
+   • Validação de dados
+   • Tratamento de erros
+   • Async/await
+
+✅ Frontend
+   • Manipulação do DOM
+   • Fetch API
+   • Eventos JavaScript
+   • Design responsivo
+   • UX moderna
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📝 REQUISITOS DO PROJETO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Requisito                                          Status
+─────────────────────────────────────────────────────────────────
+Biblioteca de classes de acesso a SGDBs           ✅ COMPLETO
+Classes representam entidades do BD               ✅ COMPLETO
+Métodos de inserção                               ✅ COMPLETO
+Métodos de busca                                  ✅ COMPLETO
+Métodos de deleção                                ✅ COMPLETO
+Temática definida (motor de busca)                ✅ COMPLETO
+Uso de Node.js                                    ✅ COMPLETO
+Uso de MongoDB                                    ✅ COMPLETO
+Uso de HTML                                       ✅ COMPLETO
+Uso de CSS                                        ✅ COMPLETO
+Sem frameworks (Node.js puro)                     ✅ COMPLETO
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📊 ESTATÍSTICAS DO CÓDIGO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  • Total de arquivos: 19
+  • Linhas de código (backend): ~1.500
+  • Linhas de código (frontend): ~400
+  • Linhas de documentação: ~1.200
+  • Classes implementadas: 6
+  • Métodos implementados: 40+
+  • Endpoints da API: 11
+  • Websites de exemplo: 15
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎨 INTERFACE WEB
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  • Design moderno inspirado no Google
+  • Gradiente de fundo atrativo
+  • Cards com sombras e animações
+  • Layout responsivo (mobile-friendly)
+  • Formulários validados
+  • Feedback visual para ações
+  • Estatísticas em tempo real
+  • Sugestões de busca instantâneas
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🧪 TESTES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Execute o script de testes:
+
+  chmod +x test-api.sh
+  ./test-api.sh
+
+Ou teste manualmente:
+
+  curl "http://localhost:3000/api/search?q=javascript"
+  curl http://localhost:3000/api/websites
+  curl http://localhost:3000/api/statistics
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📖 DOCUMENTAÇÃO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  📄 README.md .................. Visão geral do projeto
+  📄 INSTALACAO.md .............. Guia completo de instalação
+  📄 API.md ..................... Documentação da API REST
+  📄 CLASSES.md ................. Documentação das classes
+  📄 MONGODB-INSTALL.md ......... Como instalar MongoDB
+  📄 PROXIMO-PASSO.md ........... Próximos passos
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✨ RECURSOS EXTRAS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ✨ Sistema de ranking por relevância
+  ✨ Algoritmo de pontuação de resultados
+  ✨ Autocompletar/sugestões em tempo real
+  ✨ Histórico completo de buscas
+  ✨ Estatísticas detalhadas
+  ✨ Dashboard de analytics
+  ✨ Script de seed com 15 websites
+  ✨ Código totalmente comentado
+  ✨ Validação de dados
+  ✨ Tratamento de erros robusto
+  ✨ CORS habilitado
+  ✨ Encerramento gracioso do servidor
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 PRÓXIMOS PASSOS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. Instale o MongoDB (veja MONGODB-INSTALL.md)
+  2. Execute: node src/seed.js
+  3. Execute: npm start
+  4. Acesse: http://localhost:3000
+  5. Teste todas as funcionalidades!
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+           ✅ PROJETO 100% COMPLETO E FUNCIONAL ✅
+
+       Desenvolvido por: Matheus Mondaini (2504219)
+            Disciplina: EC48B - Back-End
+               Instituição: UTFPR
+                 Outubro 2025
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
