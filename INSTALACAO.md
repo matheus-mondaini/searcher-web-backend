@@ -233,13 +233,6 @@ npm run dev    # Inicia com auto-reload
 node src/seed.js  # Popula o banco de dados
 ```
 
-## Próximos Passos
-
-1. ✅ Adicione mais websites usando a interface
-2. ✅ Teste diferentes buscas
-3. ✅ Veja as estatísticas sendo atualizadas
-4. ✅ Explore a API usando curl ou Postman
-5. ✅ Verifique o histórico de buscas
 
 ## Suporte
 
