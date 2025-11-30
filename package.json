@@ -2,11 +2,11 @@
   "name": "motor-de-busca",
   "version": "1.0.0",
   "description": "Sistema de busca e armazenamento de websites - Projeto 1 EC48B",
-  "main": "src/server.js",
+  "main": "app.js",
   "type": "module",
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "node --watch src/server.js"
+    "start": "node app.js",
+    "dev": "node --watch app.js"
   },
   "keywords": [
     "busca",
