@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> - Motor de Busca</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="/dashboard" class="logo">
+        🔍 Motor de Busca
+      </a>
+      <ul class="nav-links">
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/search">Buscar</a></li>
+        <li><a href="/websites" class="active">Websites</a></li>
+        <li><a href="/websites/add">Adicionar</a></li>
+        <li><a href="/statistics">Estatísticas</a></li>
+        <li class="user-menu">
+          <span>👤 <%= user.name %></span>
+          <a href="/logout" class="btn-logout">Sair</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+      <div class="page-header">
+        <h1>🌐 Websites Indexados</h1>
+        <p>Total: <%= websites.length %> websites</p>
+      </div>
+
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="alert alert-error">
+          <%= error %>
+        </div>
+      <% } %>
+
+      <div class="action-bar">
+        <a href="/websites/add" class="btn btn-primary">
+          ➕ Adicionar Novo Website
+        </a>
+      </div>
+
+      <% if (websites.length > 0) { %>
+        <div class="websites-grid">
+          <% websites.forEach(website => { %>
+            <div class="website-card">
+              <div class="website-header">
+                <h3>
+                  <a href="<%= website.url %>" target="_blank" rel="noopener noreferrer">
+                    <%= website.title %>
+                  </a>
+                </h3>
+              </div>
+              
+              <p class="website-url">
+                🔗 <%= website.url %>
+              </p>
+              
+              <% if (website.description) { %>
+                <p class="website-description">
+                  <%= website.description.length > 150 ? website.description.substring(0, 150) + '...' : website.description %>
+                </p>
+              <% } %>
+              
+              <% if (website.keywords && website.keywords.length > 0) { %>
+                <div class="website-keywords">
+                  <% website.keywords.forEach(keyword => { %>
+                    <a href="/search?q=<%= keyword %>" class="keyword-tag">
+                      <%= keyword %>
+                    </a>
+                  <% }); %>
+                </div>
+              <% } %>
+              
+              <div class="website-meta">
+                <span class="meta-date">
+                  📅 <%= new Date(website.createdAt).toLocaleDateString('pt-BR') %>
+                </span>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      <% } else { %>
+        <div class="empty-state">
+          <h2>📭 Nenhum website indexado</h2>
+          <p>Seja o primeiro a adicionar um website ao motor de busca!</p>
+          <a href="/websites/add" class="btn btn-primary">
+            ➕ Adicionar Primeiro Website
+          </a>
+        </div>
+      <% } %>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 Motor de Busca - Projeto 2 EC48B</p>
+      <p>Matheus Mondaini (2504219) - UTFPR</p>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

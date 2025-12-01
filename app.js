@@ -8,7 +8,6 @@ async function runDemo() {
     await database.connect();
     console.log('✅ Banco conectado com sucesso');
 
-    // Criação de registros
     const novoWebsite = await Website.create({
       url: 'https://exemplo.com',
       title: 'Meu Site Exemplo',
@@ -30,14 +29,12 @@ async function runDemo() {
     });
     console.log('🔍 Registro de busca criado:', novaBusca);
 
-    // Atualização
     await Website.update(novoWebsite._id.toString(), { title: 'Site Atualizado' });
     console.log('🛠️  Website atualizado com novo título');
 
     const websites = await Website.findAll();
     console.log('📚 Websites cadastrados:', websites);
 
-    // Limpeza dos registros criados
     await SearchRecord.delete(novaBusca._id.toString());
     await Keyword.delete(novaKeyword._id.toString());
     await Website.delete(novoWebsite._id.toString());

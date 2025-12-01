@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> - Motor de Busca</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="auth-page">
+  <div class="auth-container">
+    <div class="auth-box">
+      <div class="auth-header">
+        <h1>🔍 Motor de Busca</h1>
+        <h2>Criar Conta</h2>
+        <p>Cadastre-se para começar a usar</p>
+      </div>
+
+      <% if (error) { %>
+        <div class="alert alert-error">
+          <%= error %>
+        </div>
+      <% } %>
+
+      <% if (success) { %>
+        <div class="alert alert-success">
+          <%= success %>
+        </div>
+      <% } %>
+
+      <form method="POST" action="/register" class="auth-form" id="registerForm">
+        <div class="form-group">
+          <label for="name">Nome Completo *</label>
+          <input 
+            type="text" 
+            id="name" 
+            name="name" 
+            value="<%= typeof formData !== 'undefined' && formData ? formData.name : '' %>"
+            required 
+            autofocus
+            placeholder="Seu nome completo"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="username">Nome de Usuário *</label>
+          <input 
+            type="text" 
+            id="username" 
+            name="username" 
+            value="<%= typeof formData !== 'undefined' && formData ? formData.username : '' %>"
+            required
+            pattern="[a-zA-Z0-9_]{3,20}"
+            title="3-20 caracteres: letras, números e underscore"
+            placeholder="Escolha um nome de usuário"
+          >
+          <small>3-20 caracteres (letras, números e _)</small>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email *</label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            value="<%= typeof formData !== 'undefined' && formData ? formData.email : '' %>"
+            required
+            placeholder="seu@email.com"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="password">Senha *</label>
+          <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            required
+            minlength="6"
+            placeholder="Mínimo 6 caracteres"
+          >
+          <small>Mínimo 6 caracteres</small>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirmar Senha *</label>
+          <input 
+            type="password" 
+            id="confirmPassword" 
+            name="confirmPassword" 
+            required
+            minlength="6"
+            placeholder="Digite a senha novamente"
+          >
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">
+          Criar Conta
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        <p>Já tem uma conta? <a href="/login">Fazer login</a></p>
+      </div>
+    </div>
+
+    <div class="auth-info">
+      <h3>Junte-se a nós!</h3>
+      <p>Crie sua conta e comece a usar o motor de busca</p>
+      <ul>
+        <li>✅ Cadastro rápido e seguro</li>
+        <li>✅ Acesso a todas as funcionalidades</li>
+        <li>✅ Suas buscas salvas e personalizadas</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 Motor de Busca - Projeto 2 EC48B</p>
+      <p>Matheus Mondaini (2504219) - UTFPR</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+
+      if (password !== confirmPassword) {
+        e.preventDefault();
+        alert('As senhas não coincidem!');
+        document.getElementById('confirmPassword').focus();
+      }
+    });
+  </script>
+</body>
+</html>

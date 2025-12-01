@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> - Motor de Busca</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="/dashboard" class="logo">
+        🔍 Motor de Busca
+      </a>
+      <ul class="nav-links">
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/search">Buscar</a></li>
+        <li><a href="/websites">Websites</a></li>
+        <li><a href="/websites/add">Adicionar</a></li>
+        <li><a href="/statistics" class="active">Estatísticas</a></li>
+        <li class="user-menu">
+          <span>👤 <%= user.name %></span>
+          <a href="/logout" class="btn-logout">Sair</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+      <div class="page-header">
+        <h1>📊 Estatísticas do Sistema</h1>
+        <p>Visão geral do motor de busca</p>
+      </div>
+
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="alert alert-error">
+          <%= error %>
+        </div>
+      <% } %>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">🌐</div>
+          <div class="stat-content">
+            <h3><%= totalWebsites %></h3>
+            <p>Websites Indexados</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">🔍</div>
+          <div class="stat-content">
+            <h3><%= totalSearches %></h3>
+            <p>Buscas Realizadas</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">🔑</div>
+          <div class="stat-content">
+            <h3><%= totalKeywords %></h3>
+            <p>Palavras-chave Únicas</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>🔝 Keywords Mais Usadas</h2>
+        <% if (topKeywords.length > 0) { %>
+          <div class="keywords-chart">
+            <% topKeywords.forEach((item, index) => { %>
+              <div class="keyword-bar">
+                <div class="keyword-label">
+                  <span class="keyword-rank">#<%= index + 1 %></span>
+                  <a href="/search?q=<%= item.word %>"><%= item.word %></a>
+                </div>
+                <div class="keyword-bar-container">
+                  <div class="keyword-bar-fill" style="width: <%= (item.count / topKeywords[0].count) * 100 %>%"></div>
+                </div>
+                <span class="keyword-count"><%= item.count %> websites</span>
+              </div>
+            <% }); %>
+          </div>
+        <% } else { %>
+          <p class="empty-state">Nenhuma keyword cadastrada ainda.</p>
+        <% } %>
+      </div>
+
+      <div class="section">
+        <h2>🕒 Histórico de Buscas Recentes</h2>
+        <% if (recentSearches.length > 0) { %>
+          <div class="searches-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Busca</th>
+                  <th>Resultados</th>
+                  <th>Data e Hora</th>
+                  <th>Usuário</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% recentSearches.forEach(search => { %>
+                  <tr>
+                    <td>
+                      <a href="/search?q=<%= search.query %>">
+                        🔍 <%= search.query %>
+                      </a>
+                    </td>
+                    <td><%= search.resultsCount %></td>
+                    <td><%= new Date(search.executedAt).toLocaleString('pt-BR') %></td>
+                    <td><%= search.metadata && search.metadata.username ? search.metadata.username : 'Anônimo' %></td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        <% } else { %>
+          <p class="empty-state">Nenhuma busca realizada ainda.</p>
+        <% } %>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 Motor de Busca - Projeto 2 EC48B</p>
+      <p>Matheus Mondaini (2504219) - UTFPR</p>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

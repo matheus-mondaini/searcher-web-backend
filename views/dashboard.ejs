@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> - Motor de Busca</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="/dashboard" class="logo">
+        🔍 Motor de Busca
+      </a>
+      <ul class="nav-links">
+        <li><a href="/dashboard" class="active">Dashboard</a></li>
+        <li><a href="/search">Buscar</a></li>
+        <li><a href="/websites">Websites</a></li>
+        <li><a href="/websites/add">Adicionar</a></li>
+        <li><a href="/statistics">Estatísticas</a></li>
+        <li class="user-menu">
+          <span>👤 <%= user.name %></span>
+          <a href="/logout" class="btn-logout">Sair</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+      <div class="page-header">
+        <h1>📊 Dashboard</h1>
+        <p>Bem-vindo(a), <%= user.name %>!</p>
+      </div>
+
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="alert alert-error">
+          <%= error %>
+        </div>
+      <% } %>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">🌐</div>
+          <div class="stat-content">
+            <h3><%= totalWebsites %></h3>
+            <p>Websites Indexados</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">🔍</div>
+          <div class="stat-content">
+            <h3><%= totalSearches %></h3>
+            <p>Buscas Realizadas</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">🔑</div>
+          <div class="stat-content">
+            <h3><%= totalKeywords %></h3>
+            <p>Palavras-chave</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="quick-actions">
+        <h2>Ações Rápidas</h2>
+        <div class="action-buttons">
+          <a href="/search" class="btn btn-primary">
+            🔍 Buscar Websites
+          </a>
+          <a href="/websites/add" class="btn btn-success">
+            ➕ Adicionar Website
+          </a>
+          <a href="/statistics" class="btn btn-info">
+            📊 Ver Estatísticas
+          </a>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Websites Recentes</h2>
+        <% if (websites.length > 0) { %>
+          <div class="websites-list">
+            <% websites.forEach(website => { %>
+              <div class="website-card">
+                <h3><a href="<%= website.url %>" target="_blank"><%= website.title %></a></h3>
+                <p class="website-url"><%= website.url %></p>
+                <p class="website-description"><%= website.description %></p>
+                <div class="website-keywords">
+                  <% website.keywords.forEach(keyword => { %>
+                    <span class="keyword-tag"><%= keyword %></span>
+                  <% }); %>
+                </div>
+              </div>
+            <% }); %>
+          </div>
+          <a href="/websites" class="btn btn-secondary">Ver Todos os Websites</a>
+        <% } else { %>
+          <p class="empty-state">Nenhum website indexado ainda. <a href="/websites/add">Adicione o primeiro!</a></p>
+        <% } %>
+      </div>
+
+      <div class="section">
+        <h2>Buscas Recentes</h2>
+        <% if (recentSearches.length > 0) { %>
+          <div class="searches-list">
+            <% recentSearches.forEach(search => { %>
+              <div class="search-item">
+                <a href="/search?q=<%= search.query %>">
+                  🔍 <%= search.query %>
+                </a>
+                <span class="search-count"><%= search.resultsCount %> resultados</span>
+                <span class="search-date"><%= new Date(search.executedAt).toLocaleString('pt-BR') %></span>
+              </div>
+            <% }); %>
+          </div>
+        <% } else { %>
+          <p class="empty-state">Nenhuma busca realizada ainda.</p>
+        <% } %>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 Motor de Busca - Projeto 2 EC48B</p>
+      <p>Matheus Mondaini (2504219) - UTFPR</p>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

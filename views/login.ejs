@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> - Motor de Busca</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="auth-page">
+  <div class="auth-container">
+    <div class="auth-box">
+      <div class="auth-header">
+        <h1>🔍 Motor de Busca</h1>
+        <h2>Login</h2>
+        <p>Entre com suas credenciais</p>
+      </div>
+
+      <% if (error) { %>
+        <div class="alert alert-error">
+          <%= error %>
+        </div>
+      <% } %>
+
+      <form method="POST" action="/login" class="auth-form">
+        <div class="form-group">
+          <label for="username">Usuário ou Email</label>
+          <input 
+            type="text" 
+            id="username" 
+            name="username" 
+            value="<%= typeof username !== 'undefined' ? username : '' %>"
+            required 
+            autofocus
+            placeholder="Digite seu usuário ou email"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="password">Senha</label>
+          <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            required
+            placeholder="Digite sua senha"
+          >
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">
+          Entrar
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        <p>Não tem uma conta? <a href="/register">Criar conta</a></p>
+      </div>
+    </div>
+
+    <div class="auth-info">
+      <h3>Bem-vindo ao Motor de Busca</h3>
+      <p>Sistema de busca e armazenamento de websites</p>
+      <ul>
+        <li>✅ Busque websites por palavras-chave</li>
+        <li>✅ Adicione seus websites favoritos</li>
+        <li>✅ Visualize estatísticas de uso</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 Motor de Busca - Projeto 2 EC48B</p>
+      <p>Matheus Mondaini (2504219) - UTFPR</p>
+    </div>
+  </footer>
+</body>
+</html>

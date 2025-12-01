@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> - Motor de Busca</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="/dashboard" class="logo">
+        🔍 Motor de Busca
+      </a>
+      <ul class="nav-links">
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/search">Buscar</a></li>
+        <li><a href="/websites">Websites</a></li>
+        <li><a href="/websites/add" class="active">Adicionar</a></li>
+        <li><a href="/statistics">Estatísticas</a></li>
+        <li class="user-menu">
+          <span>👤 <%= user.name %></span>
+          <a href="/logout" class="btn-logout">Sair</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+      <div class="page-header">
+        <h1>➕ Adicionar Website</h1>
+        <p>Indexe um novo website ao motor de busca</p>
+      </div>
+
+      <% if (error) { %>
+        <div class="alert alert-error">
+          <%= error %>
+        </div>
+      <% } %>
+
+      <% if (success) { %>
+        <div class="alert alert-success">
+          <%= success %>
+          <a href="/websites">Ver todos os websites</a> |
+          <a href="/search">Fazer uma busca</a>
+        </div>
+      <% } %>
+
+      <div class="form-container">
+        <form method="POST" action="/websites/add" class="website-form" id="addWebsiteForm">
+          <div class="form-group">
+            <label for="url">URL do Website *</label>
+            <input 
+              type="url" 
+              id="url" 
+              name="url" 
+              value="<%= typeof formData !== 'undefined' && formData ? formData.url : '' %>"
+              required 
+              placeholder="https://exemplo.com.br"
+              pattern="https?://.+"
+              title="URL deve começar com http:// ou https://"
+            >
+            <small>Deve começar com http:// ou https://</small>
+          </div>
+
+          <div class="form-group">
+            <label for="title">Título do Website *</label>
+            <input 
+              type="text" 
+              id="title" 
+              name="title" 
+              value="<%= typeof formData !== 'undefined' && formData ? formData.title : '' %>"
+              required 
+              placeholder="Nome do website"
+              maxlength="200"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="description">Descrição</label>
+            <textarea 
+              id="description" 
+              name="description" 
+              rows="4"
+              placeholder="Breve descrição do website..."
+              maxlength="500"
+            ><%= typeof formData !== 'undefined' && formData ? formData.description : '' %></textarea>
+            <small>Opcional - até 500 caracteres</small>
+          </div>
+
+          <div class="form-group">
+            <label for="keywords">Palavras-chave (Keywords)</label>
+            <input 
+              type="text" 
+              id="keywords" 
+              name="keywords" 
+              value="<%= typeof formData !== 'undefined' && formData ? formData.keywords : '' %>"
+              placeholder="javascript, programação, web, desenvolvimento"
+            >
+            <small>Separe por vírgulas (ex: javascript, programação, web)</small>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+              ✅ Indexar Website
+            </button>
+            <a href="/websites" class="btn btn-secondary">
+              ❌ Cancelar
+            </a>
+          </div>
+        </form>
+
+        <div class="form-help">
+          <h3>💡 Dicas:</h3>
+          <ul>
+            <li><strong>URL:</strong> Digite a URL completa (com https://)</li>
+            <li><strong>Título:</strong> Nome pelo qual o website será identificado</li>
+            <li><strong>Descrição:</strong> Ajuda outros usuários a entender do que se trata</li>
+            <li><strong>Keywords:</strong> Palavras que ajudarão na busca (separe por vírgulas)</li>
+          </ul>
+
+          <h3>📋 Exemplos de Keywords:</h3>
+          <ul>
+            <li>Para um tutorial: <em>tutorial, aprendizado, educação, curso</em></li>
+            <li>Para documentação: <em>documentação, referência, api, guia</em></li>
+            <li>Para ferramentas: <em>ferramenta, desenvolvimento, produtividade</em></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 Motor de Busca - Projeto 2 EC48B</p>
+      <p>Matheus Mondaini (2504219) - UTFPR</p>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+  <script>
+    document.getElementById('addWebsiteForm').addEventListener('submit', function(e) {
+      const url = document.getElementById('url').value;
+
+      try {
+        new URL(url);
+      } catch (error) {
+        e.preventDefault();
+        alert('Por favor, digite uma URL válida (ex: https://exemplo.com)');
+        document.getElementById('url').focus();
+        return false;
+      }
+
+      if (!url.startsWith('http://') && !url.startsWith('https://')) {
+        e.preventDefault();
+        alert('A URL deve começar com http:// ou https://');
+        document.getElementById('url').focus();
+        return false;
+      }
+    });
+
+    const description = document.getElementById('description');
+    description.addEventListener('input', function() {
+      const length = this.value.length;
+      const maxLength = this.getAttribute('maxlength');
+      console.log(`Descrição: ${length}/${maxLength} caracteres`);
+    });
+  </script>
+</body>
+</html>
