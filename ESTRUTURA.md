@@ -276,7 +276,7 @@ Versão Anterior (MVC Completo)          Versão Simplificada
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-           ✅ PROJETO 100% CONFORME REQUISITOS ✅
+            PROJETO CONFORME REQUISITOS
 
        Desenvolvido por: Matheus Mondaini (2504219)
             Disciplina: EC48B - Back-End

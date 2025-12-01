@@ -1,4 +1,4 @@
-# ✅ Verificação de Requisitos - Projeto 1 EC48B
+# Verificação de Requisitos - Projeto 1 EC48B
 
 **Data:** 30 de novembro de 2025  
 **Aluno:** Matheus Mondaini (2504219)
